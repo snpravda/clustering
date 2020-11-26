@@ -32,9 +32,6 @@ def get_dummies(df):
 # Create your views here.
 
 class GetuDummies(GenericAPIView):
-    '''post .csv file with string columns
-    and if in column is less than 11 string categorical variables (they can repeat)
-    it will convert it tinto dummy/indicator variables'''
 
     #parser_classes = ( parsers.FormParser, parsers.MultiPartParser) #parsers.JSONParser)
     parser_classes = (parsers.FormParser, parsers.MultiPartParser,)
@@ -43,6 +40,10 @@ class GetuDummies(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         """
+            post .csv file with string columns
+            and if in column is less than 11 string categorical variables (they can repeat)
+            it will convert it tinto dummy/indicator variables
+
             ---
             parameters:
                 name: csv
