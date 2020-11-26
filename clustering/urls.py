@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from django.conf.urls.static import static
+from django.views.static import serve
 from clustering import settings
 from rest_framework_swagger.views import get_swagger_view
 
@@ -26,5 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', swagger),
     path('get_dummies/', include('get_dummies.urls')),
+    # url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    # url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
