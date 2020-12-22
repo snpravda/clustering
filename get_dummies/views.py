@@ -31,7 +31,7 @@ def get_dummies(df):
 
 # Create your views here.
 
-class GetuDummies(GenericAPIView):
+class GetDummies(GenericAPIView):
 
     #parser_classes = ( parsers.FormParser, parsers.MultiPartParser) #parsers.JSONParser)
     parser_classes = (parsers.FormParser, parsers.MultiPartParser,)
