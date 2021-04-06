@@ -3,6 +3,8 @@ from django.http import HttpResponse, FileResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework import status, parsers, renderers
+
+from clustering import settings
 from .serializers import *
 from rest_framework.response import Response
 from .models import Csv
@@ -34,6 +36,10 @@ def delete_csv_before_request():
     Csv.objects.all().delete()
 
 
+def create_media_folder_if_not_exists():
+    if not os.path.exists(settings.MEDIA_ROOT):
+        os.makedirs(settings.MEDIA_ROOT)
+
 # Create your views here.
 
 class GetDummies(GenericAPIView):
@@ -56,6 +62,7 @@ class GetDummies(GenericAPIView):
             consumes:
                 - multipart/form-data
         """
+        create_media_folder_if_not_exists()
         delete_csv_before_request()
         try:
             serializer = self.get_serializer(data=request.data)
