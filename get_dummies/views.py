@@ -29,11 +29,15 @@ def get_dummies(df):
                 pass
     return df
 
+
+def delete_csv_before_request():
+    Csv.objects.all().delete()
+
+
 # Create your views here.
 
 class GetDummies(GenericAPIView):
-
-    #parser_classes = ( parsers.FormParser, parsers.MultiPartParser) #parsers.JSONParser)
+    # parser_classes = ( parsers.FormParser, parsers.MultiPartParser) #parsers.JSONParser)
     parser_classes = (parsers.FormParser, parsers.MultiPartParser,)
     renderer_classes = (renderers.JSONRenderer,)
     serializer_class = CsvUploadSerializer
@@ -52,6 +56,7 @@ class GetDummies(GenericAPIView):
             consumes:
                 - multipart/form-data
         """
+        delete_csv_before_request()
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -65,8 +70,7 @@ class GetDummies(GenericAPIView):
             # response['Content-Disposition'] = 'inline; filename=' + os.path.basename(str(modified.csv))
             return FileResponse(modified.csv)  # response
 
-            #return Response({"file": b"".join(modified.csv).decode("utf-8")}, status=status.HTTP_200_OK)
-            #return Response({'result': 'ok' }, status=status.HTTP_200_OK)
+            # return Response({"file": b"".join(modified.csv).decode("utf-8")}, status=status.HTTP_200_OK)
+            # return Response({'result': 'ok' }, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'result': 'ERROR ' + str(e)}, status=status.HTTP_400_BAD_REQUEST)
-

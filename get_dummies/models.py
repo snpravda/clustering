@@ -2,6 +2,7 @@ from django.db import models
 from django.dispatch import receiver
 import os
 
+
 # Create your models here.
 class Csv(models.Model):
     csv = models.FileField(upload_to='')
@@ -18,8 +19,6 @@ class Csv(models.Model):
         "deleting files"
         os.remove(self.csv.path)
         super(Csv, self).delete(*args, **kwargs)
-
-
 
     def __str__(self):
         return self.csv.__str__()
